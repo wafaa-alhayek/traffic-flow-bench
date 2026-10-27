@@ -1,0 +1,1615 @@
+{
+ "release_root": "/home/user/tf/data/kaggle_public",
+ "panels": [
+  "D7_I10_E",
+  "D7_I10_W",
+  "D7_I210_E",
+  "D7_I210_W",
+  "D7_I405_N",
+  "D7_I405_S",
+  "D12_I5_N",
+  "D12_I5_S",
+  "D12_I405_N",
+  "D12_I405_S"
+ ],
+ "task1": {
+  "D7_I10_E": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.772328927204188,
+    "rmse_flow_per_lane": 41.66092718218905
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 3.164536403462332,
+    "rmse_flow_per_lane": 39.928387712569865
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 2.9649548759496622,
+     "rmse_flow_per_lane": 42.53529185616143
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.772328927204188,
+     "rmse_flow_per_lane": 41.66092718218905
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 3.802968529872004,
+     "rmse_flow_per_lane": 42.84569531687054
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 3.341724252493077,
+     "rmse_flow_per_lane": 41.52515330280622
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 3.342198719193741,
+     "rmse_flow_per_lane": 40.079199606947824
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 3.164536403462332,
+     "rmse_flow_per_lane": 39.928387712569865
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 3.2872510326642206,
+     "rmse_flow_per_lane": 40.02334161267277
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 3.1473183426553155,
+     "rmse_flow_per_lane": 39.945121552741575
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.5644471645355225,
+     "rmse_flow_vph_per_lane": 39.10902018893528,
+     "S_state": 0.9146243591011824,
+     "n": 634287
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.548015594482422,
+     "rmse_flow_vph_per_lane": 38.8751677582222,
+     "S_state": 0.915158567877876,
+     "n": 914394
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.0170905590057373,
+     "rmse_flow_vph_per_lane": 41.06845349156723,
+     "S_state": 0.9033450295819413,
+     "n": 1266700
+    },
+    "S_state": 0.911042652187
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 9.919611930847168,
+     "rmse_flow_vph_per_lane": 93.927625119009,
+     "S_state": 0.7137252030357943,
+     "n": 634287
+    },
+    "R2": {
+     "rmse_speed_kmh": 9.663670539855957,
+     "rmse_flow_vph_per_lane": 92.09682158609523,
+     "S_state": 0.720657153123105,
+     "n": 914394
+    },
+    "R3": {
+     "rmse_speed_kmh": 10.069680213928223,
+     "rmse_flow_vph_per_lane": 97.32829675958999,
+     "S_state": 0.7078765465301315,
+     "n": 1266700
+    },
+    "S_state": 0.7140863008963437
+   }
+  },
+  "D7_I10_W": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 1.693958609307906,
+    "rmse_flow_per_lane": 38.93598217754984
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=inf)+nbr",
+    "tau": Infinity,
+    "nbr": true,
+    "rmse_speed": 1.824050417882222,
+    "rmse_flow_per_lane": 36.72742699689271
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 1.7595412046280345,
+     "rmse_flow_per_lane": 40.34144087089811
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 1.693958609307906,
+     "rmse_flow_per_lane": 38.93598217754984
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 2.0349714012353264,
+     "rmse_flow_per_lane": 40.67948734052275
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 1.9212851657157684,
+     "rmse_flow_per_lane": 38.90138027171454
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 1.8910319847039367,
+     "rmse_flow_per_lane": 37.048553449638995
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 1.8244105866087736,
+     "rmse_flow_per_lane": 36.864171860633
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 1.880443229555642,
+     "rmse_flow_per_lane": 36.81331476374183
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 1.824050417882222,
+     "rmse_flow_per_lane": 36.72742699689271
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 1.6197409629821777,
+     "rmse_flow_vph_per_lane": 35.82379116253172,
+     "S_state": 0.937548688641644,
+     "n": 461046
+    },
+    "R2": {
+     "rmse_speed_kmh": 1.548998475074768,
+     "rmse_flow_vph_per_lane": 35.22512230755412,
+     "S_state": 0.9395357058359269,
+     "n": 544536
+    },
+    "R3": {
+     "rmse_speed_kmh": 1.7862160205841064,
+     "rmse_flow_vph_per_lane": 37.76694021653664,
+     "S_state": 0.9324630797893719,
+     "n": 1150439
+    },
+    "S_state": 0.9365158247556477
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 4.4760613441467285,
+     "rmse_flow_vph_per_lane": 95.85496875412412,
+     "S_state": 0.8298282655882689,
+     "n": 461046
+    },
+    "R2": {
+     "rmse_speed_kmh": 3.707991361618042,
+     "rmse_flow_vph_per_lane": 101.82512337552504,
+     "S_state": 0.8418414586678145,
+     "n": 544536
+    },
+    "R3": {
+     "rmse_speed_kmh": 4.687794208526611,
+     "rmse_flow_vph_per_lane": 96.20979212389688,
+     "S_state": 0.8249828044675043,
+     "n": 1150439
+    },
+    "S_state": 0.8322175095745292
+   }
+  },
+  "D7_I210_E": {
+   "speed_method": {
+    "method": "profile+resid(tau=6)+nbr",
+    "tau": 6.0,
+    "nbr": true,
+    "rmse_speed": 2.1658986656126693,
+    "rmse_flow_per_lane": 39.031483166121326
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=6)+nbr",
+    "tau": 6.0,
+    "nbr": true,
+    "rmse_speed": 2.1658986656126693,
+    "rmse_flow_per_lane": 39.031483166121326
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 2.318061357563797,
+     "rmse_flow_per_lane": 41.6046546146402
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.2123388219239497,
+     "rmse_flow_per_lane": 41.30968530051727
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 2.2971092134096267,
+     "rmse_flow_per_lane": 39.39452532400112
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 2.1658986656126693,
+     "rmse_flow_per_lane": 39.031483166121326
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 2.310197532121296,
+     "rmse_flow_per_lane": 39.43904917150664
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 2.201218535549951,
+     "rmse_flow_per_lane": 39.368585652468155
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 2.3341403462679984,
+     "rmse_flow_per_lane": 39.85150088923568
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 2.230823096289252,
+     "rmse_flow_per_lane": 39.806226018052904
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.0195679664611816,
+     "rmse_flow_vph_per_lane": 37.6039626975549,
+     "S_state": 0.9275476271896465,
+     "n": 1224968
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.0837085247039795,
+     "rmse_flow_vph_per_lane": 38.45403830988623,
+     "S_state": 0.9255104664954812,
+     "n": 1507253
+    },
+    "R3": {
+     "rmse_speed_kmh": 2.252697229385376,
+     "rmse_flow_vph_per_lane": 39.79916587028835,
+     "S_state": 0.9208290460113882,
+     "n": 3328818
+    },
+    "S_state": 0.9246290465655053
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 3.02719783782959,
+     "rmse_flow_vph_per_lane": 58.69381273782122,
+     "S_state": 0.889613936937218,
+     "n": 1224968
+    },
+    "R2": {
+     "rmse_speed_kmh": 3.337888717651367,
+     "rmse_flow_vph_per_lane": 61.76068521640756,
+     "S_state": 0.8805517450328181,
+     "n": 1507253
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.440991163253784,
+     "rmse_flow_vph_per_lane": 61.05630483897984,
+     "S_state": 0.8788647571638337,
+     "n": 3328818
+    },
+    "S_state": 0.8830101463779565
+   }
+  },
+  "D7_I210_W": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 3.1398536162405857,
+    "rmse_flow_per_lane": 41.01730975354926
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 3.3542205932896922,
+    "rmse_flow_per_lane": 39.508717051662025
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 3.275509432348108,
+     "rmse_flow_per_lane": 41.9050977472017
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 3.1398536162405857,
+     "rmse_flow_per_lane": 41.01730975354926
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 3.716370629246769,
+     "rmse_flow_per_lane": 40.88737302686406
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 3.479541675531825,
+     "rmse_flow_per_lane": 39.846572668928516
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 3.4757293956535795,
+     "rmse_flow_per_lane": 39.7693595290503
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 3.3542205932896922,
+     "rmse_flow_per_lane": 39.508717051662025
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 3.45813269823037,
+     "rmse_flow_per_lane": 39.95364118850633
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 3.354388501558313,
+     "rmse_flow_per_lane": 39.76795887848767
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.8644213676452637,
+     "rmse_flow_vph_per_lane": 38.482103237669946,
+     "S_state": 0.9086255526433153,
+     "n": 301573
+    },
+    "R2": {
+     "rmse_speed_kmh": 3.0208544731140137,
+     "rmse_flow_vph_per_lane": 38.919383648161606,
+     "S_state": 0.9049113492504801,
+     "n": 608226
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.3602981567382812,
+     "rmse_flow_vph_per_lane": 40.49950226436354,
+     "S_state": 0.8963679414117744,
+     "n": 659236
+    },
+    "S_state": 0.9033016144351901
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 7.6021881103515625,
+     "rmse_flow_vph_per_lane": 71.16073132372271,
+     "S_state": 0.7812361761348856,
+     "n": 301573
+    },
+    "R2": {
+     "rmse_speed_kmh": 8.114489555358887,
+     "rmse_flow_vph_per_lane": 78.42840387546084,
+     "S_state": 0.7645985826330615,
+     "n": 608226
+    },
+    "R3": {
+     "rmse_speed_kmh": 8.017943382263184,
+     "rmse_flow_vph_per_lane": 76.00903790935385,
+     "S_state": 0.7685388272126107,
+     "n": 659236
+    },
+    "S_state": 0.7714578619935192
+   }
+  },
+  "D7_I405_N": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 3.2588551368133967,
+    "rmse_flow_per_lane": 56.272827743947225
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 4.2860533279544795,
+    "rmse_flow_per_lane": 55.13407974983207
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 3.498408598821606,
+     "rmse_flow_per_lane": 58.13818642864394
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 3.2588551368133967,
+     "rmse_flow_per_lane": 56.272827743947225
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 5.609450588867561,
+     "rmse_flow_per_lane": 58.650890829361764
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 4.685913171167238,
+     "rmse_flow_per_lane": 56.36130103608946
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 4.503966677942408,
+     "rmse_flow_per_lane": 55.6817810615882
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 4.2860533279544795,
+     "rmse_flow_per_lane": 55.13407974983207
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 4.330085793405435,
+     "rmse_flow_per_lane": 55.743618312301734
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 4.198255404824621,
+     "rmse_flow_per_lane": 55.339415246166354
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.724029064178467,
+     "rmse_flow_vph_per_lane": 51.896859990514585,
+     "S_state": 0.9013733795543506,
+     "n": 1268018
+    },
+    "R2": {
+     "rmse_speed_kmh": 3.0163867473602295,
+     "rmse_flow_vph_per_lane": 54.06881521686671,
+     "S_state": 0.893393287924088,
+     "n": 2297413
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.570496082305908,
+     "rmse_flow_vph_per_lane": 56.91111370986377,
+     "S_state": 0.8792454307779636,
+     "n": 3548847
+    },
+    "S_state": 0.8913373660854674
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 16.938570022583008,
+     "rmse_flow_vph_per_lane": 125.78760138402116,
+     "S_state": 0.5376897264511241,
+     "n": 1268018
+    },
+    "R2": {
+     "rmse_speed_kmh": 16.43497657775879,
+     "rmse_flow_vph_per_lane": 118.96214495303917,
+     "S_state": 0.5538001947897468,
+     "n": 2297413
+    },
+    "R3": {
+     "rmse_speed_kmh": 17.228002548217773,
+     "rmse_flow_vph_per_lane": 122.77482195361146,
+     "S_state": 0.5337477814607273,
+     "n": 3548847
+    },
+    "S_state": 0.5417459009005327
+   }
+  },
+  "D7_I405_S": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 3.1378919804671135,
+    "rmse_flow_per_lane": 43.441529720186445
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 3.7877532347457823,
+    "rmse_flow_per_lane": 42.12479483835096
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 3.3216836559474214,
+     "rmse_flow_per_lane": 44.78264637253302
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 3.1378919804671135,
+     "rmse_flow_per_lane": 43.441529720186445
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 4.6421818092003155,
+     "rmse_flow_per_lane": 45.64191583423384
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 4.107773919531222,
+     "rmse_flow_per_lane": 43.62085792017121
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 3.950569752924694,
+     "rmse_flow_per_lane": 42.524183238234635
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 3.7877532347457823,
+     "rmse_flow_per_lane": 42.12479483835096
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 3.8561522385030003,
+     "rmse_flow_per_lane": 42.41829178454603
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 3.739791388094225,
+     "rmse_flow_per_lane": 42.1551384423256
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.903712272644043,
+     "rmse_flow_vph_per_lane": 41.94082888526803,
+     "S_state": 0.9051251794321832,
+     "n": 427177
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.97659969329834,
+     "rmse_flow_vph_per_lane": 41.2729630084248,
+     "S_state": 0.9040628416516302,
+     "n": 753764
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.3570163249969482,
+     "rmse_flow_vph_per_lane": 42.87213140342123,
+     "S_state": 0.8946198133041097,
+     "n": 946996
+    },
+    "S_state": 0.9012692781293077
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 12.556624412536621,
+     "rmse_flow_vph_per_lane": 98.98452096722623,
+     "S_state": 0.6528887799476689,
+     "n": 427177
+    },
+    "R2": {
+     "rmse_speed_kmh": 12.54652214050293,
+     "rmse_flow_vph_per_lane": 95.60366678588615,
+     "S_state": 0.6556989772292907,
+     "n": 753764
+    },
+    "R3": {
+     "rmse_speed_kmh": 13.15011215209961,
+     "rmse_flow_vph_per_lane": 107.47825150268257,
+     "S_state": 0.6335575846959252,
+     "n": 946996
+    },
+    "S_state": 0.6473817806242949
+   }
+  },
+  "D12_I5_N": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.575451832492397,
+    "rmse_flow_per_lane": 38.214217506578194
+   },
+   "flow_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.575451832492397,
+    "rmse_flow_per_lane": 38.214217506578194
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 2.7451631641381002,
+     "rmse_flow_per_lane": 40.18682618648171
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.575451832492397,
+     "rmse_flow_per_lane": 38.214217506578194
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 4.573079565935178,
+     "rmse_flow_per_lane": 45.32215938357687
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 3.845657780962229,
+     "rmse_flow_per_lane": 41.952340975256
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 3.623855677608959,
+     "rmse_flow_per_lane": 40.4209314686435
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 3.482557427245089,
+     "rmse_flow_per_lane": 39.76846096584616
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 3.469077111589168,
+     "rmse_flow_per_lane": 39.92741144703425
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 3.3943897107546457,
+     "rmse_flow_per_lane": 39.50451802370018
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.3104708194732666,
+     "rmse_flow_vph_per_lane": 35.071424228946015,
+     "S_state": 0.9232057383905188,
+     "n": 1088300
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.280193567276001,
+     "rmse_flow_vph_per_lane": 35.68738744410953,
+     "S_state": 0.9233874885730211,
+     "n": 1431348
+    },
+    "R3": {
+     "rmse_speed_kmh": 2.8194689750671387,
+     "rmse_flow_vph_per_lane": 40.710334982751995,
+     "S_state": 0.90788821331844,
+     "n": 2629093
+    },
+    "S_state": 0.9181604800939933
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 14.43396282196045,
+     "rmse_flow_vph_per_lane": 112.78597934111073,
+     "S_state": 0.6017571522174694,
+     "n": 1088300
+    },
+    "R2": {
+     "rmse_speed_kmh": 13.61876392364502,
+     "rmse_flow_vph_per_lane": 112.7979074498844,
+     "S_state": 0.6193563035376897,
+     "n": 1431348
+    },
+    "R3": {
+     "rmse_speed_kmh": 14.060284614562988,
+     "rmse_flow_vph_per_lane": 113.72774566122186,
+     "S_state": 0.6091065806518361,
+     "n": 2629093
+    },
+    "S_state": 0.6100733454689984
+   }
+  },
+  "D12_I5_S": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.930011400195266,
+    "rmse_flow_per_lane": 41.816592592587604
+   },
+   "flow_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.930011400195266,
+    "rmse_flow_per_lane": 41.816592592587604
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 3.0746795204091057,
+     "rmse_flow_per_lane": 44.04489694332671
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.930011400195266,
+     "rmse_flow_per_lane": 41.816592592587604
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 4.69407945790437,
+     "rmse_flow_per_lane": 47.07208156214968
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 4.1837914472446425,
+     "rmse_flow_per_lane": 43.910874054399855
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 3.865620868850304,
+     "rmse_flow_per_lane": 42.84422990265958
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 3.7538276660954963,
+     "rmse_flow_per_lane": 42.09767372343076
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 3.739251748375722,
+     "rmse_flow_per_lane": 42.50021644911763
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 3.6737768363894148,
+     "rmse_flow_per_lane": 41.98475328877017
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 2.503129482269287,
+     "rmse_flow_vph_per_lane": 37.11785157597722,
+     "S_state": 0.9174753836414009,
+     "n": 324167
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.790076971054077,
+     "rmse_flow_vph_per_lane": 40.07958096064685,
+     "S_state": 0.909006658688736,
+     "n": 692260
+    },
+    "R3": {
+     "rmse_speed_kmh": 3.13832688331604,
+     "rmse_flow_vph_per_lane": 44.27563068132264,
+     "S_state": 0.8982674891313596,
+     "n": 1033085
+    },
+    "S_state": 0.9082498438204988
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 13.554683685302734,
+     "rmse_flow_vph_per_lane": 108.56336356558215,
+     "S_state": 0.6239869203305146,
+     "n": 324167
+    },
+    "R2": {
+     "rmse_speed_kmh": 14.14344310760498,
+     "rmse_flow_vph_per_lane": 113.69441570008324,
+     "S_state": 0.6073359101723352,
+     "n": 692260
+    },
+    "R3": {
+     "rmse_speed_kmh": 13.392809867858887,
+     "rmse_flow_vph_per_lane": 111.39681371409009,
+     "S_state": 0.625311083006779,
+     "n": 1033085
+    },
+    "S_state": 0.6188779711698763
+   }
+  },
+  "D12_I405_N": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.0868595437226105,
+    "rmse_flow_per_lane": 33.86334658764766
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 2.2353172758383266,
+    "rmse_flow_per_lane": 29.58657625054319
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 2.179305442601349,
+     "rmse_flow_per_lane": 35.5325068412513
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.0868595437226105,
+     "rmse_flow_per_lane": 33.86334658764766
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 2.5795776822918843,
+     "rmse_flow_per_lane": 31.12211289680023
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 2.390395531106679,
+     "rmse_flow_per_lane": 30.233713760165
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 2.325379928305014,
+     "rmse_flow_per_lane": 29.745806017329276
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 2.2353172758383266,
+     "rmse_flow_per_lane": 29.58657625054319
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 2.296592518221307,
+     "rmse_flow_per_lane": 29.812811537561625
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 2.223676659604719,
+     "rmse_flow_per_lane": 29.713330460319803
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 1.8709490299224854,
+     "rmse_flow_vph_per_lane": 28.534771752149638,
+     "S_state": 0.9377108426103595,
+     "n": 340450
+    },
+    "R2": {
+     "rmse_speed_kmh": 1.9713503122329712,
+     "rmse_flow_vph_per_lane": 29.120356623603758,
+     "S_state": 0.935093226511005,
+     "n": 551642
+    },
+    "R3": {
+     "rmse_speed_kmh": 2.2280845642089844,
+     "rmse_flow_vph_per_lane": 30.252087679833938,
+     "S_state": 0.9286801061918799,
+     "n": 901761
+    },
+    "S_state": 0.9338280584377481
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 6.114074230194092,
+     "rmse_flow_vph_per_lane": 62.24293697608057,
+     "S_state": 0.8202164116128126,
+     "n": 340450
+    },
+    "R2": {
+     "rmse_speed_kmh": 6.025809288024902,
+     "rmse_flow_vph_per_lane": 62.208470569295535,
+     "S_state": 0.8221493586088688,
+     "n": 551642
+    },
+    "R3": {
+     "rmse_speed_kmh": 6.273519039154053,
+     "rmse_flow_vph_per_lane": 63.45411740406831,
+     "S_state": 0.8158438320778201,
+     "n": 901761
+    },
+    "S_state": 0.8194032007665005
+   }
+  },
+  "D12_I405_S": {
+   "speed_method": {
+    "method": "interp+nbr",
+    "tau": null,
+    "nbr": true,
+    "rmse_speed": 2.105106712743357,
+    "rmse_flow_per_lane": 53.90018601198667
+   },
+   "flow_method": {
+    "method": "profile+resid(tau=24)+nbr",
+    "tau": 24.0,
+    "nbr": true,
+    "rmse_speed": 2.4238635192538416,
+    "rmse_flow_per_lane": 47.72091154419268
+   },
+   "candidates": [
+    {
+     "method": "interp",
+     "tau": null,
+     "nbr": false,
+     "rmse_speed": 2.1768798314784332,
+     "rmse_flow_per_lane": 55.036342309302505
+    },
+    {
+     "method": "interp+nbr",
+     "tau": null,
+     "nbr": true,
+     "rmse_speed": 2.105106712743357,
+     "rmse_flow_per_lane": 53.90018601198667
+    },
+    {
+     "method": "profile+resid(tau=6)",
+     "tau": 6.0,
+     "nbr": false,
+     "rmse_speed": 2.7974297136849255,
+     "rmse_flow_per_lane": 50.15811857867313
+    },
+    {
+     "method": "profile+resid(tau=6)+nbr",
+     "tau": 6.0,
+     "nbr": true,
+     "rmse_speed": 2.6315891267712703,
+     "rmse_flow_per_lane": 49.1935613070308
+    },
+    {
+     "method": "profile+resid(tau=24)",
+     "tau": 24.0,
+     "nbr": false,
+     "rmse_speed": 2.489798843946194,
+     "rmse_flow_per_lane": 47.80760893672543
+    },
+    {
+     "method": "profile+resid(tau=24)+nbr",
+     "tau": 24.0,
+     "nbr": true,
+     "rmse_speed": 2.4238635192538416,
+     "rmse_flow_per_lane": 47.72091154419268
+    },
+    {
+     "method": "profile+resid(tau=inf)",
+     "tau": Infinity,
+     "nbr": false,
+     "rmse_speed": 2.4496565295218757,
+     "rmse_flow_per_lane": 47.94068338862116
+    },
+    {
+     "method": "profile+resid(tau=inf)+nbr",
+     "tau": Infinity,
+     "nbr": true,
+     "rmse_speed": 2.3998386173259214,
+     "rmse_flow_per_lane": 47.90243594456208
+    }
+   ],
+   "train_score": {
+    "R1": {
+     "rmse_speed_kmh": 1.997377634048462,
+     "rmse_flow_vph_per_lane": 46.934575061205024,
+     "S_state": 0.9208734688909628,
+     "n": 135986
+    },
+    "R2": {
+     "rmse_speed_kmh": 2.0020315647125244,
+     "rmse_flow_vph_per_lane": 46.97398655651422,
+     "S_state": 0.920742728508882,
+     "n": 255271
+    },
+    "R3": {
+     "rmse_speed_kmh": 2.1756720542907715,
+     "rmse_flow_vph_per_lane": 48.24830285270475,
+     "S_state": 0.9160151181069124,
+     "n": 556709
+    },
+    "S_state": 0.9192104385022524
+   },
+   "train_score_profile_only": {
+    "R1": {
+     "rmse_speed_kmh": 6.966041564941406,
+     "rmse_flow_vph_per_lane": 100.57939105887404,
+     "S_state": 0.7724226357187955,
+     "n": 135986
+    },
+    "R2": {
+     "rmse_speed_kmh": 6.771727085113525,
+     "rmse_flow_vph_per_lane": 102.53233572471109,
+     "S_state": 0.775122570905936,
+     "n": 255271
+    },
+    "R3": {
+     "rmse_speed_kmh": 6.752930164337158,
+     "rmse_flow_vph_per_lane": 102.99907888819293,
+     "S_state": 0.7751707479693696,
+     "n": 556709
+    },
+    "S_state": 0.7742386515313671
+   }
+  }
+ },
+ "task2": {
+  "queue_onset": {
+   "cv_iou_by_rule": {
+    "threshold@0.2": {
+     "generated": 0.6158244139044479,
+     "shipped": 0.7191652120281152
+    },
+    "threshold@0.3": {
+     "generated": 0.5956235315358586,
+     "shipped": 0.7030257936507937
+    },
+    "threshold@0.4": {
+     "generated": 0.5728632762399603,
+     "shipped": 0.7296329365079366
+    },
+    "threshold@0.5": {
+     "generated": 0.5515980431934375,
+     "shipped": 0.747093253968254
+    },
+    "threshold@0.6": {
+     "generated": 0.5275773552878392,
+     "shipped": 0.751984126984127
+    },
+    "expected_iou": {
+     "generated": 0.5848294217118053,
+     "shipped": 0.7142195767195767
+    }
+   },
+   "chosen_rule": [
+    "threshold",
+    0.2
+   ],
+   "persistence_iou_on_shipped_train_windows": 0.025,
+   "n_generated_windows": 4800,
+   "n_shipped_train_windows": 40,
+   "onset_reweighting": {
+    "shipped_first_step_counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     39
+    ],
+    "generated_first_step_counts": [
+     827,
+     803,
+     803,
+     776,
+     807,
+     784
+    ]
+   },
+   "top_features": {
+    "h": 596939.2,
+    "freq_h": 459219.2,
+    "pos": 270893.7,
+    "v_cut": 222217.5,
+    "q_lane_last": 132417.0,
+    "tod": 125808.5,
+    "freq_h_max_nbr": 70395.2,
+    "freq_now": 51499.6,
+    "nbr+3_r_last": 47397.6,
+    "r_min": 29986.2,
+    "nbr+2_r_last": 13254.8,
+    "q_lane_slope3": 11317.7
+   }
+  },
+  "queue_ongoing": {
+   "cv_iou_by_rule": {
+    "threshold@0.2": {
+     "generated": 0.8294371882336574,
+     "shipped": 0.8500449833581465
+    },
+    "threshold@0.3": {
+     "generated": 0.8455274640000215,
+     "shipped": 0.8636491600371734
+    },
+    "threshold@0.4": {
+     "generated": 0.8527421843630243,
+     "shipped": 0.8670749376871563
+    },
+    "threshold@0.5": {
+     "generated": 0.854783367709847,
+     "shipped": 0.8692867042871713
+    },
+    "threshold@0.6": {
+     "generated": 0.8498457096056844,
+     "shipped": 0.867312774978046
+    },
+    "expected_iou": {
+     "generated": 0.8524634727339717,
+     "shipped": 0.8708088030441946
+    }
+   },
+   "chosen_rule": [
+    "threshold",
+    0.5
+   ],
+   "persistence_iou_on_shipped_train_windows": 0.7550653065461846,
+   "n_generated_windows": 4800,
+   "n_shipped_train_windows": 40,
+   "onset_reweighting": null,
+   "top_features": {
+    "r_last": 11766111.9,
+    "r_mean3": 6425917.9,
+    "freq_h": 1097591.8,
+    "tod": 641786.2,
+    "dist_q_down": 588267.0,
+    "r_slope3": 564032.5,
+    "n_queued_now": 316659.8,
+    "pos": 268954.1,
+    "dist_q_up": 261219.5,
+    "frac_queued_hist": 254131.1,
+    "h": 226055.4,
+    "freq_now": 161174.6
+   }
+  }
+ },
+ "task4": {
+  "D7_I10_E/validation": {
+   "n_paths": 4278,
+   "n_count_links": 137,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999999,
+    "0.01": 0.9999939106221829,
+    "0.05": 0.9999695952688408,
+    "0.2": 0.9998790047982306,
+    "1.0": 0.9994104842661867
+   },
+   "S_link": 0.9999695952688408,
+   "l1_move_from_prior": 34276.30326354573
+  },
+  "D7_I10_E/private": {
+   "n_paths": 4278,
+   "n_count_links": 137,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999991,
+    "0.01": 0.999993413402404,
+    "0.05": 0.9999671335321975,
+    "0.2": 0.9998695164541984,
+    "1.0": 0.9993718470619364
+   },
+   "S_link": 0.9999671335321975,
+   "l1_move_from_prior": 34729.71008179698
+  },
+  "D7_I10_W/validation": {
+   "n_paths": 5050,
+   "n_count_links": 100,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999991,
+    "0.01": 0.9999902853192028,
+    "0.05": 0.99995149641741,
+    "0.2": 0.9998070183099318,
+    "1.0": 0.9990603584210311
+   },
+   "S_link": 0.99995149641741,
+   "l1_move_from_prior": 44156.090344776385
+  },
+  "D7_I10_W/private": {
+   "n_paths": 5050,
+   "n_count_links": 100,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.9999917927026195,
+    "0.05": 0.9999590216035621,
+    "0.2": 0.9998369459153587,
+    "1.0": 0.9992059341425121
+   },
+   "S_link": 0.9999590216035621,
+   "l1_move_from_prior": 40937.75966359268
+  },
+  "D7_I210_E/validation": {
+   "n_paths": 2628,
+   "n_count_links": 294,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.43220451988831043,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999997,
+    "0.01": 0.999997325469426,
+    "0.05": 0.9999866364153726,
+    "0.2": 0.9999466796848325,
+    "1.0": 0.9997366537786928
+   },
+   "S_link": 0.9999866364153726,
+   "l1_move_from_prior": 18802.812022412618
+  },
+  "D7_I210_E/private": {
+   "n_paths": 2628,
+   "n_count_links": 294,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.4085518057154133,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.9999972948947637,
+    "0.05": 0.9999864830012603,
+    "0.2": 0.9999460591076268,
+    "1.0": 0.9997335827024283
+   },
+   "S_link": 0.9999864830012603,
+   "l1_move_from_prior": 18821.616963228476
+  },
+  "D7_I210_W/validation": {
+   "n_paths": 3321,
+   "n_count_links": 81,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.12080879702501046,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999993,
+    "0.01": 0.9999862145205198,
+    "0.05": 0.9999312299124619,
+    "0.2": 0.9997272161660687,
+    "1.0": 0.9986908265207404
+   },
+   "S_link": 0.9999312299124619,
+   "l1_move_from_prior": 26590.922814944464
+  },
+  "D7_I210_W/private": {
+   "n_paths": 3321,
+   "n_count_links": 81,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.06897125047284525,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.9999822023142666,
+    "0.05": 0.9999112658765835,
+    "0.2": 0.9996488030046524,
+    "1.0": 0.9983331354835441
+   },
+   "S_link": 0.9999112658765835,
+   "l1_move_from_prior": 30029.00089782127
+  },
+  "D7_I405_N/validation": {
+   "n_paths": 4560,
+   "n_count_links": 350,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.3573310377022546,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999996,
+    "0.01": 0.9999985905962708,
+    "0.05": 0.9999929553007372,
+    "0.2": 0.999971855808148,
+    "1.0": 0.9998601771604718
+   },
+   "S_link": 0.9999929553007372,
+   "l1_move_from_prior": 28469.261156160603
+  },
+  "D7_I405_N/private": {
+   "n_paths": 4560,
+   "n_count_links": 350,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.3353059335261638,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999994,
+    "0.01": 0.9999984969116543,
+    "0.05": 0.9999924868386935,
+    "0.2": 0.9999699814387305,
+    "1.0": 0.9998508008676219
+   },
+   "S_link": 0.9999924868386935,
+   "l1_move_from_prior": 28529.06839913949
+  },
+  "D7_I405_S/validation": {
+   "n_paths": 4656,
+   "n_count_links": 96,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.23688282590358123,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999999,
+    "0.01": 0.9999925553356493,
+    "0.05": 0.9999628434398742,
+    "0.2": 0.9998523615061448,
+    "1.0": 0.9992858041996252
+   },
+   "S_link": 0.9999628434398742,
+   "l1_move_from_prior": 31636.391865910464
+  },
+  "D7_I405_S/private": {
+   "n_paths": 4656,
+   "n_count_links": 96,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.19944267454244857,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.999991854602731,
+    "0.05": 0.9999593423632722,
+    "0.2": 0.9998383963291314,
+    "1.0": 0.9992175011827933
+   },
+   "S_link": 0.9999593423632722,
+   "l1_move_from_prior": 31895.65452965779
+  },
+  "D12_I5_N/validation": {
+   "n_paths": 4278,
+   "n_count_links": 257,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999992,
+    "0.01": 0.9999971579104193,
+    "0.05": 0.9999858006028296,
+    "0.2": 0.9999433669802823,
+    "1.0": 0.9997210700525939
+   },
+   "S_link": 0.9999858006028296,
+   "l1_move_from_prior": 35230.20709724384
+  },
+  "D12_I5_N/private": {
+   "n_paths": 4278,
+   "n_count_links": 257,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.9999971244066821,
+    "0.05": 0.9999856355867947,
+    "0.2": 0.9999427435531949,
+    "1.0": 0.999718181828576
+   },
+   "S_link": 0.9999856355867947,
+   "l1_move_from_prior": 35146.61397646781
+  },
+  "D12_I5_S/validation": {
+   "n_paths": 5050,
+   "n_count_links": 100,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999993,
+    "0.01": 0.9999923023398313,
+    "0.05": 0.9999615815562233,
+    "0.2": 0.9998473509346538,
+    "1.0": 0.9992615267309826
+   },
+   "S_link": 0.9999615815562233,
+   "l1_move_from_prior": 36161.2996218366
+  },
+  "D12_I5_S/private": {
+   "n_paths": 5050,
+   "n_count_links": 100,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.0,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999994,
+    "0.01": 0.999992033247674,
+    "0.05": 0.9999602479754331,
+    "0.2": 0.999842194907229,
+    "1.0": 0.9992394698881466
+   },
+   "S_link": 0.9999602479754331,
+   "l1_move_from_prior": 39221.45729999434
+  },
+  "D12_I405_N/validation": {
+   "n_paths": 903,
+   "n_count_links": 81,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.7419163082382997,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999994,
+    "0.01": 0.9999788865638407,
+    "0.05": 0.9998946964584667,
+    "0.2": 0.999582644836903,
+    "1.0": 0.998006677732436
+   },
+   "S_link": 0.9998946964584667,
+   "l1_move_from_prior": 23123.87956853213
+  },
+  "D12_I405_N/private": {
+   "n_paths": 903,
+   "n_count_links": 81,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.6951893176079522,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.9999763718749552,
+    "0.05": 0.9998821931910946,
+    "0.2": 0.9995336769888428,
+    "1.0": 0.9977874044668923
+   },
+   "S_link": 0.9998821931910946,
+   "l1_move_from_prior": 23831.064661388504
+  },
+  "D12_I405_S/validation": {
+   "n_paths": 630,
+   "n_count_links": 35,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.6902683834383758,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999999,
+    "0.01": 0.9999511191865365,
+    "0.05": 0.9997572646356915,
+    "0.2": 0.9990530112442176,
+    "1.0": 0.9957831495548086
+   },
+   "S_link": 0.9997572646356915,
+   "l1_move_from_prior": 21007.026865593565
+  },
+  "D12_I405_S/private": {
+   "n_paths": 630,
+   "n_count_links": 35,
+   "lambda": 0.05,
+   "S_link_prior_only": 0.7264185997482613,
+   "S_link_by_lambda": {
+    "0.0": 0.9999999999999998,
+    "0.01": 0.999924842340095,
+    "0.05": 0.9996285255309498,
+    "0.2": 0.9985690736975753,
+    "1.0": 0.9938811590211584
+   },
+   "S_link": 0.9996285255309498,
+   "l1_move_from_prior": 22777.84864293314
+  }
+ },
+ "summary": {
+  "task1_train_S_state_mean": 0.9147544603012611,
+  "task1_train_S_state_profile_baseline": 0.7212492669303918,
+  "task2_cv": {
+   "queue_onset": {
+    "model_cv_iou_shipped": 0.7191652120281152,
+    "model_cv_iou_generated": 0.6158244139044479,
+    "persistence_iou_shipped": 0.025
+   },
+   "queue_ongoing": {
+    "model_cv_iou_shipped": 0.8692867042871713,
+    "model_cv_iou_generated": 0.854783367709847,
+    "persistence_iou_shipped": 0.7550653065461846
+   }
+  },
+  "task4_S_link_mean": 0.9999313217753872
+ }
+}

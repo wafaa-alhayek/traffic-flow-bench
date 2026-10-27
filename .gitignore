@@ -1,0 +1,9 @@
+data/
+cache/
+outputs/*
+!outputs/report.json
+!outputs/*.png
+__pycache__/
+*.pyc
+*.zip
+run.log
