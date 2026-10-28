@@ -14,7 +14,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import nnls
+from scipy.optimize import minimize, nnls
+
+SPLITS = ("train", "validation", "private")
 
 
 def operator(network: Path):
@@ -35,6 +37,38 @@ def solve(A, c, b, lam):
     bb = np.concatenate([c, np.sqrt(lam) * b])
     f, _ = nnls(aa, bb, maxiter=50 * A.shape[1])
     return f
+
+
+def read_prior(base: Path, path_ids):
+    if not (base / "synthetic_weak_prior.csv").exists():
+        return None
+    prior = pd.read_csv(base / "synthetic_weak_prior.csv", dtype={"path_id": str})
+    return pd.to_numeric(prior.drop_duplicates("path_id").set_index("path_id").path_flow, errors="coerce") \
+        .reindex(path_ids).to_numpy(float)
+
+
+def pooled_prior(release: Path, panel: str, path_ids):
+    """Geometric mean of the three splits' priors.
+
+    The released priors look like independent lognormal draws (log-ratio sd about 0.88 between any two
+    splits, and successive ratios correlate at -0.5), so pooling cuts their noise by about sqrt(3).
+    """
+    logs = [np.log(np.maximum(b, 1e-6)) for s in SPLITS
+            if (b := read_prior(release / "task4" / panel / s, path_ids)) is not None and np.isfinite(b).all()]
+    return np.exp(np.mean(logs, axis=0)) if logs else None
+
+
+def solve_log(A, c, mu, alpha=1.0):
+    """MAP fit in log space: min sum_l (A e^u - c)_l^2 / c_l + alpha * ||u - mu||^2, so f = e^u > 0."""
+    w = 1.0 / np.maximum(c, 1.0)
+
+    def fg(u):
+        f = np.exp(u)
+        r = A @ f - c
+        return (w * r * r).sum() + alpha * ((u - mu) ** 2).sum(), 2 * (A.T @ (w * r)) * f + 2 * alpha * (u - mu)
+
+    res = minimize(fg, mu.copy(), jac=True, method="L-BFGS-B", options={"maxiter": 3000})
+    return np.exp(res.x)
 
 
 def s_link(A, f, c):
@@ -61,6 +95,13 @@ def run_panel(release: Path, panel: str, split: str, lam: float, lams_report=(0.
     f = solve(Am, c, b, lam)
     report["S_link"] = s_link(Am, f, c)
     report["l1_move_from_prior"] = float(np.abs(f - b).sum())
+    alt = None
+    g = pooled_prior(release, panel, path_ids)
+    if g is not None:
+        g = g * c.sum() / max((Am @ g).sum(), 1e-9)
+        alt = solve_log(Am, c, np.log(np.maximum(g, 1e-6)))
+        report["pooled_S_link"] = s_link(Am, alt, c)
+        report["pooled_l1_move_from_prior"] = float(np.abs(alt - b).sum())
 
     tpl_path = base / "sample_submission_path_flow.csv"
     if tpl_path.exists():
@@ -69,8 +110,11 @@ def run_panel(release: Path, panel: str, split: str, lam: float, lams_report=(0.
         out = paths[["path_id", "origin_zone", "destination_zone"]].astype(str).copy()
         out["departure_time"] = str(prior.departure_time.iloc[0]) if "departure_time" in prior and len(prior) else "PM"
     out["panel"] = panel
-    flow = dict(zip(path_ids, f))
-    out["path_flow"] = out.path_id.map(flow).fillna(0.0).clip(lower=0).round(4)
     cols = [c_ for c_ in ("panel", "departure_time", "path_id", "origin_zone", "destination_zone", "path_flow")
             if c_ in out.columns]
-    return out[cols], report
+
+    def fill(x):
+        o = out.copy()
+        o["path_flow"] = o.path_id.map(dict(zip(path_ids, x))).fillna(0.0).clip(lower=0).round(4)
+        return o[cols]
+    return fill(f), report, (None if alt is None else fill(alt))

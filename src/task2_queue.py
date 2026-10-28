@@ -325,6 +325,24 @@ def onset_weights(rows):
                "generated_first_step_counts": (pg - 0.5).astype(int).tolist()}
 
 
+def onset_at_last_step(rows):
+    """True when the organizers' train onset windows put the first queue at T+30.
+
+    Their selector takes the first origin with a queue in the horizon, so the queue first shows at the last
+    step. Training then keeps only generated windows built the same way, and predictions are restricted to
+    that step.
+    """
+    ship = [r for r in rows if r["kind"] == "shipped" and r["split"] == "train"
+            and r["condition"] == "queue_onset" and r["first"] > 0]
+    return len(ship) >= 5 and float(np.mean([r["first"] == H for r in ship])) >= 0.8
+
+
+def _mask_last(p):
+    q = p.copy()
+    q[:len(p) - len(p) // H] = 0.0
+    return q
+
+
 def run(rows, folds: int, seed: int, log=print):
     """Cross-validate, pick the selection rule, refit on everything, predict the scored windows."""
     report, preds = {}, {}
@@ -334,7 +352,15 @@ def run(rows, folds: int, seed: int, log=print):
         if not train_rows:
             log(f"  {cond}: no train windows, falling back to persistence")
             continue
-        weights, wrep = onset_weights(train_rows) if cond == "queue_onset" else ({id(r): 1.0 for r in train_rows}, None)
+        last_only = cond == "queue_onset" and onset_at_last_step(train_rows)
+        if last_only:
+            train_rows = [r for r in train_rows if r["kind"] == "shipped" or r["first"] == H]
+            weights, wrep = {id(r): 1.0 for r in train_rows}, {"last_step_only": True}
+        elif cond == "queue_onset":
+            weights, wrep = onset_weights(train_rows)
+        else:
+            weights, wrep = {id(r): 1.0 for r in train_rows}, None
+        post = _mask_last if last_only else (lambda p: p)
         dates = sorted({r["date"] for r in train_rows})
         rs = np.random.default_rng(seed)
         fold_of = dict(zip(dates, rs.integers(0, folds, len(dates))))
@@ -347,7 +373,7 @@ def run(rows, folds: int, seed: int, log=print):
                 continue
             model = _fit(*_training_set(tr, weights), seed)
             for r in te:
-                p = model.predict(r["X"])
+                p = post(model.predict(r["X"]))
                 for rule in RULES:
                     cv[rule][r["kind"]].append(iou(select_cells(p, rule), r["y"]))
                 if r["kind"] == "shipped":
@@ -372,7 +398,7 @@ def run(rows, folds: int, seed: int, log=print):
         report[cond]["top_features"] = dict(sorted(imp.items(), key=lambda kv: -kv[1])[:12])
         for r in rc:
             if r["split"] != "train":
-                preds[r["window_id"]] = select_cells(model.predict(r["X"]), best)
+                preds[r["window_id"]] = select_cells(post(model.predict(r["X"])), best)
     return report, preds
 
 

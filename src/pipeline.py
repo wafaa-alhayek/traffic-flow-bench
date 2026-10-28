@@ -23,9 +23,11 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import task1_lgbm as t1l  # noqa: E402
 import task1_state as t1  # noqa: E402
 import task2_queue as t2  # noqa: E402
 import task4_odme as t4  # noqa: E402
+import task3_proxy as t3p  # noqa: E402
 from common import CACHE, DEFAULT_RELEASE, OUTPUTS, ROOT, cached, network, panels, weekday_of  # noqa: E402
 
 SLUG = "2026-ieee-big-data-traffic-flow-bench"
@@ -92,6 +94,10 @@ def main() -> None:
     ap.add_argument("--folds", type=int, default=4)
     ap.add_argument("--lam", type=float, default=0.05, help="Task 4 prior regularization")
     ap.add_argument("--seed", type=int, default=2026)
+    ap.add_argument("--reuse-task1", action="store_true",
+                    help="reuse the per-corridor Task 1 files of an earlier run in the same output dir")
+    ap.add_argument("--task1", choices=["v1", "v2"], default="v2",
+                    help="v1: best hand-made interpolation; v2: gradient-boosted correction on top of it")
     ap.add_argument("--rebuild-cache", action="store_true")
     ap.add_argument("--output-dir", type=Path, default=OUTPUTS)
     args = ap.parse_args()
@@ -104,7 +110,7 @@ def main() -> None:
     log(f"Release {rel}; corridors: {', '.join(sel)}")
     rng = np.random.default_rng(args.seed)
     report = {"release_root": str(rel), "panels": sel, "task1": {}, "task2": {}, "task4": {}}
-    state_path, odme_parts, t2_rows = out / "state_submission.csv", [], []
+    state_path, odme_parts, odme_alt, t2_rows = out / "state_submission.csv", [], [], []
     if state_path.exists():
         state_path.unlink()
     first_state = True
@@ -121,26 +127,47 @@ def main() -> None:
         log(f"  {len(z_tr['links'])} links, train {len(z_tr['dates'])} days, "
             f"{int(z_tr['target'].sum()):,} train targets")
 
-        # Task 1: profiles from released cells of every split, method chosen on train
-        arrays_v = [z_tr["speed"]] + [z["speed"] for z in scored.values()]
-        arrays_q = [z_tr["flow"]] + [z["flow"] for z in scored.values()]
-        wds = [weekday_of(z_tr["dates"])] + [weekday_of(z["dates"]) for z in scored.values()]
-        P_v, P_q = t1.profile(arrays_v, wds), t1.profile(arrays_q, wds)
-        log("  Task 1 candidates on train:")
-        sel1 = t1.select(z_tr, P_v, P_q, lanes, vmax, log=log)
-        cfg_v = (sel1["speed_method"]["tau"], sel1["speed_method"]["nbr"])
-        cfg_q = (sel1["flow_method"]["tau"], sel1["flow_method"]["nbr"])
-        log(f"  Task 1 train S_state {sel1['train_score']['S_state']:.4f} "
-            f"(profile only {sel1['train_score_profile_only']['S_state']:.4f}); "
-            f"speed: {sel1['speed_method']['method']}, flow: {sel1['flow_method']['method']}")
-        report["task1"][panel] = sel1
-        for s, z in scored.items():
-            tpl = pd.read_csv(rel / "task1" / panel / s / "sample_submission_state.csv", dtype=str)
-            pv, pq = t1.predict(z, P_v, P_q, cfg_v, cfg_q, vmax)
-            rows = t1.submission_rows(panel, tpl, z, pv, pq)
-            rows.to_csv(state_path, mode="w" if first_state else "a", header=first_state, index=False)
-            first_state = False
-            log(f"  Task 1 {s}: {len(rows):,} rows")
+        # Task 1, saved per corridor so --reuse-task1 can skip it on a rerun
+        parts = out / "task1_parts"
+        parts.mkdir(exist_ok=True)
+        part_files = [parts / f"{panel}_{s}.csv" for s in scored]
+        if args.reuse_task1 and (parts / f"{panel}.json").exists() and all(f.exists() for f in part_files):
+            report["task1"][panel] = json.loads((parts / f"{panel}.json").read_text())
+            for f in part_files:
+                rows = pd.read_csv(f, dtype=str)
+                rows.to_csv(state_path, mode="w" if first_state else "a", header=first_state, index=False)
+                first_state = False
+            log(f"  Task 1 reused from {parts}")
+        else:
+            # Task 1: profiles from released cells of every split, method chosen on train
+            arrays_v = [z_tr["speed"]] + [z["speed"] for z in scored.values()]
+            arrays_q = [z_tr["flow"]] + [z["flow"] for z in scored.values()]
+            wds = [weekday_of(z_tr["dates"])] + [weekday_of(z["dates"]) for z in scored.values()]
+            P_v, P_q = t1.profile(arrays_v, wds), t1.profile(arrays_q, wds)
+            log("  Task 1 candidates on train:")
+            sel1 = t1.select(z_tr, P_v, P_q, lanes, vmax, log=log)
+            cfg_v = (sel1["speed_method"]["tau"], sel1["speed_method"]["nbr"])
+            cfg_q = (sel1["flow_method"]["tau"], sel1["flow_method"]["nbr"])
+            log(f"  Task 1 train S_state {sel1['train_score']['S_state']:.4f} "
+                f"(profile only {sel1['train_score_profile_only']['S_state']:.4f}); "
+                f"speed: {sel1['speed_method']['method']}, flow: {sel1['flow_method']['method']}")
+            report["task1"][panel] = sel1
+            preds = {}
+            if args.task1 == "v2":
+                P_o = t1.profile([z_tr["occ"]] + [z["occ"] for z in scored.values()], wds)
+                v1_tr = t1.predict(z_tr, P_v, P_q, cfg_v, cfg_q, vmax)
+                sel1["v2"], preds = t1l.run(z_tr, scored, P_v, P_q, P_o, lanes, vmax, v1_tr, args.seed, log=log,
+                                            physics=lambda pv, pq, days: t3p.score(pv, pq, z_tr, net, days))
+                del v1_tr
+            for s, z in scored.items():
+                tpl = pd.read_csv(rel / "task1" / panel / s / "sample_submission_state.csv", dtype=str)
+                pv, pq = preds[s] if s in preds else t1.predict(z, P_v, P_q, cfg_v, cfg_q, vmax)
+                rows = t1.submission_rows(panel, tpl, z, pv, pq)
+                rows.to_csv(parts / f"{panel}_{s}.csv", index=False)
+                rows.to_csv(state_path, mode="w" if first_state else "a", header=first_state, index=False)
+                first_state = False
+                log(f"  Task 1 {s}: {len(rows):,} rows")
+            (parts / f"{panel}.json").write_text(json.dumps(sel1, default=float))
 
         # Task 2 tables (trained jointly across corridors below)
         if (rel / "task2" / panel).exists():
@@ -151,9 +178,10 @@ def main() -> None:
 
         # Task 4
         for s in SCORED:
-            sub, rep = t4.run_panel(rel, panel, s, args.lam)
+            sub, rep, alt = t4.run_panel(rel, panel, s, args.lam)
             if sub is not None:
                 odme_parts.append(sub)
+                odme_alt.append(alt if alt is not None else sub)
                 report["task4"][f"{panel}/{s}"] = rep
                 log(f"  Task 4 {s}: S_link {rep['S_link']:.4f} (prior only {rep['S_link_prior_only']:.4f})")
         del z_tr, scored
@@ -165,16 +193,19 @@ def main() -> None:
     queue.to_csv(out / "queue_submission.csv", index=False)
     log(f"  Task 2: {len(queue):,} rows, {int(queue.queue_pred.sum()):,} predicted queued")
     pd.concat(odme_parts, ignore_index=True).to_csv(out / "odme_submission.csv", index=False)
+    pd.concat(odme_alt, ignore_index=True).to_csv(out / "odme_pooled.csv", index=False)
 
     key = rel / "submission_key.csv"
     if key.exists():
-        log("== Merging into the upload file")
-        subprocess.run([sys.executable, str(ROOT / "official" / "src" / "merge_submissions.py"),
-                        "--state", str(state_path), "--queue", str(out / "queue_submission.csv"),
-                        "--odme", str(out / "odme_submission.csv"), "--key", str(key),
-                        "--output", str(out / "submission.csv")], check=True)
-        with zipfile.ZipFile(out / "submission.csv.zip", "w", zipfile.ZIP_DEFLATED) as zf:
-            zf.write(out / "submission.csv", "submission.csv")
+        # submission.csv uses the v1 Task 4 solver; submission_odme_pooled.csv swaps in the pooled-prior one
+        for odme, name in (("odme_submission.csv", "submission"), ("odme_pooled.csv", "submission_odme_pooled")):
+            log(f"== Merging into {name}.csv")
+            subprocess.run([sys.executable, str(ROOT / "official" / "src" / "merge_submissions.py"),
+                            "--state", str(state_path), "--queue", str(out / "queue_submission.csv"),
+                            "--odme", str(out / odme), "--key", str(key),
+                            "--output", str(out / f"{name}.csv")], check=True)
+            with zipfile.ZipFile(out / f"{name}.csv.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+                zf.write(out / f"{name}.csv", "submission.csv")
     else:
         log("No submission_key.csv in the release; per-task files written, merge skipped")
 
@@ -196,7 +227,14 @@ def summarize(report):
                    "model_cv_iou_generated": r["cv_iou_by_rule"][name]["generated"],
                    "persistence_iou_shipped": r["persistence_iou_on_shipped_train_windows"]}
     sl = [v["S_link"] for v in report["task4"].values()]
-    return {"task1_train_S_state_mean": float(np.mean(s1)) if s1 else None,
+    v2 = [v["v2"] for v in report["task1"].values() if "v2" in v]
+    extra = {}
+    if v2:
+        extra = {"task1_holdout_S_state_v1": float(np.mean([r["holdout_v1"]["S_state"] for r in v2])),
+                 "task1_holdout_S_state_v2": float(np.mean([r["holdout_v2"]["S_state"] for r in v2])),
+                 "task3_proxy_S_physics_v1": float(np.mean([r["holdout_physics_v1"]["S_physics"] for r in v2])),
+                 "task3_proxy_S_physics_v2": float(np.mean([r["holdout_physics_v2"]["S_physics"] for r in v2]))}
+    return {**extra, "task1_train_S_state_mean": float(np.mean(s1)) if s1 else None,
             "task1_train_S_state_profile_baseline": float(np.mean(s1b)) if s1b else None,
             "task2_cv": q,
             "task4_S_link_mean": float(np.mean(sl)) if sl else None}
