@@ -89,7 +89,7 @@ def main() -> None:
     ap.add_argument("--data-url", help="gs:// or https:// URL of the competition zip")
     ap.add_argument("--keep-archive", action="store_true")
     ap.add_argument("--panel", action="append", help="limit to these corridors (repeatable)")
-    ap.add_argument("--max-windows", type=int, default=600,
+    ap.add_argument("--max-windows", type=int, default=1200,
                     help="generated Task 2 training windows per corridor and condition")
     ap.add_argument("--folds", type=int, default=4)
     ap.add_argument("--lam", type=float, default=0.05, help="Task 4 prior regularization")
@@ -110,7 +110,7 @@ def main() -> None:
     log(f"Release {rel}; corridors: {', '.join(sel)}")
     rng = np.random.default_rng(args.seed)
     report = {"release_root": str(rel), "panels": sel, "task1": {}, "task2": {}, "task4": {}}
-    state_path, odme_parts, odme_alt, t2_rows = out / "state_submission.csv", [], [], []
+    state_path, odme_parts, t2_rows = out / "state_submission.csv", [], []
     if state_path.exists():
         state_path.unlink()
     first_state = True
@@ -178,10 +178,9 @@ def main() -> None:
 
         # Task 4
         for s in SCORED:
-            sub, rep, alt = t4.run_panel(rel, panel, s, args.lam)
+            sub, rep = t4.run_panel(rel, panel, s, args.lam)
             if sub is not None:
                 odme_parts.append(sub)
-                odme_alt.append(alt if alt is not None else sub)
                 report["task4"][f"{panel}/{s}"] = rep
                 log(f"  Task 4 {s}: S_link {rep['S_link']:.4f} (prior only {rep['S_link_prior_only']:.4f})")
         del z_tr, scored
@@ -193,12 +192,10 @@ def main() -> None:
     queue.to_csv(out / "queue_submission.csv", index=False)
     log(f"  Task 2: {len(queue):,} rows, {int(queue.queue_pred.sum()):,} predicted queued")
     pd.concat(odme_parts, ignore_index=True).to_csv(out / "odme_submission.csv", index=False)
-    pd.concat(odme_alt, ignore_index=True).to_csv(out / "odme_pooled.csv", index=False)
 
     key = rel / "submission_key.csv"
     if key.exists():
-        # submission.csv uses the v1 Task 4 solver; submission_odme_pooled.csv swaps in the pooled-prior one
-        for odme, name in (("odme_submission.csv", "submission"), ("odme_pooled.csv", "submission_odme_pooled")):
+        for odme, name in (("odme_submission.csv", "submission"),):
             log(f"== Merging into {name}.csv")
             subprocess.run([sys.executable, str(ROOT / "official" / "src" / "merge_submissions.py"),
                             "--state", str(state_path), "--queue", str(out / "queue_submission.csv"),

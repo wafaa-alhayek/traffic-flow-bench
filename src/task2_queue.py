@@ -3,6 +3,11 @@
 A link is queued when its speed is at or below v_cut (0.60 x free-flow speed). The leaderboard scores
 space-time IoU per window, averaged over windows, with queue_onset and queue_ongoing weighted equally.
 
+The leaderboard scores every link in the horizon (window_index future_coverage is 1.0, labels come from the
+complete simulated state), including links whose detector is missing. So the history is filled across links
+before the features are built, with the observed share kept as a feature, and training labels on missing cells
+are filled the same way from neighbouring links.
+
 Training windows are generated from every train day, where the unmasked layer gives the labels, using the
 same conditions the organizers select on. Onset windows are reweighted so that the step at which the queue
 first appears matches the shipped train windows. Features only use timestamps at or before T.
@@ -28,6 +33,7 @@ FEATURES = (
     [f"r_lag{k}" for k in range(HIST + 1)]
     + ["r_last", "r_min", "r_mean3", "r_slope3", "q_lane_last", "q_lane_slope3"]
     + [f"nbr{k:+d}_r_last" for k in NBR] + [f"nbr{k:+d}_r_min" for k in (-2, -1, 1, 2)]
+    + ["obs_frac", "obs_last"]
     + ["dist_q_down", "dist_q_up", "n_queued_now", "frac_queued_hist",
        "freq_now", "freq_h", "freq_h_max_nbr",
        "h", "tod", "weekend", "pos", "v_cut", "lanes"]
@@ -53,6 +59,17 @@ def _shift(x, k):
     return out
 
 
+def fill_links(a):
+    """[T, L] with each row's NaNs filled by linear interpolation along the corridor (ends held flat)."""
+    out = np.array(a, dtype=float, copy=True)
+    idx = np.arange(out.shape[1])
+    for t in range(out.shape[0]):
+        ok = np.isfinite(out[t])
+        if 2 <= ok.sum() < len(ok):
+            out[t] = np.interp(idx, idx[ok], out[t, ok])
+    return out
+
+
 def _dist(flag, direction):
     L = flag.shape[0]
     out = np.full(L, 99.0)
@@ -70,6 +87,9 @@ def window_features(hv, hq, vcut, lanes, freq_we, s0, weekend):
     freq_we: [SLOTS, L] train queue frequency for this window's day type.
     """
     L = hv.shape[1]
+    obs = np.isfinite(hv)
+    obs_frac, obs_last = obs[:-1].mean(axis=0), obs[-1] | obs[-2]
+    hv, hq = fill_links(hv), fill_links(hq)
     r = hv / vcut[None, :]
     rf = _ffill(r)
     r_last = rf[-1]
@@ -82,6 +102,7 @@ def window_features(hv, hq, vcut, lanes, freq_we, s0, weekend):
     queued_now = np.nan_to_num(r_last, nan=9.0) <= 1.0
     per_link = [r[::-1].T, r_last, r_min, r_mean3, r_slope3, qf[-1], qf[-1] - qf[-4]]
     per_link += [_shift(r_last, k) for k in NBR] + [_shift(r_min, k) for k in (-2, -1, 1, 2)]
+    per_link += [obs_frac, obs_last.astype(float)]
     per_link += [_dist(queued_now, +1), _dist(queued_now, -1),
                  np.full(L, queued_now.sum(), float),
                  np.full(L, np.nanmean(np.nan_to_num(r, nan=9.0) <= 1.0), float),
@@ -124,6 +145,13 @@ def _labels_and_conditions(tv, el, vcut):
     """Per (slot, link) queue truth for one day, with NaN where not scoreable."""
     lab = np.where(np.isfinite(tv) & el, (tv <= vcut[None, :]).astype(float), np.nan)
     return lab
+
+
+def full_labels(tv, vcut):
+    """Queue truth for every link: observed speeds where present (eligible or not), filled along the corridor
+    where the detector is missing. NaN only for slots with fewer than two observed links."""
+    f = fill_links(tv)
+    return np.where(np.isfinite(f), (f <= vcut[None, :]).astype(float), np.nan)
 
 
 def generate_windows(z_train, vcut, rng, max_per_condition):
@@ -259,7 +287,7 @@ def panel_tables(release: Path, panel: str, z_tr: dict, scored: dict, net: pd.Da
             hv[HIST], hq[HIST] = z_tr["speed"][d, s0], z_tr["flow"][d, s0]
             freq = freq_for(S, N, we[d], q[d], ok[d])
             X = window_features(hv, hq, vcut, lanes, freq, s0, float(wd[d] >= 5))
-            lab = _labels_and_conditions(z_tr["true_speed"][d], z_tr["elig"][d], vcut)[s0 + 1:s0 + 1 + H]
+            lab = full_labels(z_tr["true_speed"][d, s0 + 1:s0 + 1 + H], vcut)
             add("generated", cond, "train", str(z_tr["dates"][d]), f"gen_{panel}_{d}_{s0}", X, lab.reshape(-1), first)
 
     for split, z in [("train", z_tr)] + list(scored.items()):
@@ -277,13 +305,15 @@ def panel_tables(release: Path, panel: str, z_tr: dict, scored: dict, net: pd.Da
                 freq = freq_for(S, N, we[d], q[d], ok[d])
                 lab = _labels_and_conditions(z_tr["true_speed"][d], z_tr["elig"][d], vcut)
                 lab = np.full((H, L), np.nan) if s0 + H >= SLOTS else lab[s0 + 1:s0 + 1 + H]
+                y = np.full((H, L), np.nan) if s0 + H >= SLOTS else \
+                    full_labels(z_tr["true_speed"][d, s0 + 1:s0 + 1 + H], vcut)
             else:
                 weekend = pd.Timestamp(w.date).dayofweek >= 5
                 freq = freq_for(S, N, int(weekend))
-                lab = np.full((H, L), np.nan)
+                lab = y = np.full((H, L), np.nan)
             weekend = float(pd.Timestamp(w.date).dayofweek >= 5)
             X = window_features(hv, hq, vcut, lanes, freq, s0, weekend)
-            y = lab.reshape(-1)
+            y = y.reshape(-1)
             first = int(np.argmax(np.nan_to_num(lab).any(axis=1))) + 1 if np.nan_to_num(lab).any() else 0
             add("shipped", str(w.condition), split, str(w.date), str(w.window_id), X, y, first,
                 meta=dict(forecast_origin=str(w.forecast_origin), persistence=persistence(hv, vcut).reshape(-1),
@@ -293,11 +323,11 @@ def panel_tables(release: Path, panel: str, z_tr: dict, scored: dict, net: pd.Da
 
 def _fit(X, y, w, seed):
     import lightgbm as lgb
-    params = dict(objective="binary", learning_rate=0.05, num_leaves=63, min_data_in_leaf=200,
+    params = dict(objective="binary", learning_rate=0.03, num_leaves=127, min_data_in_leaf=200,
                   feature_fraction=0.8, bagging_fraction=0.8, bagging_freq=1, lambda_l2=1.0,
                   seed=seed, deterministic=True, verbose=-1, num_threads=0)
     return lgb.train(params, lgb.Dataset(X, y, weight=w, feature_name=list(FEATURES), free_raw_data=True),
-                     num_boost_round=300)
+                     num_boost_round=600)
 
 
 def _training_set(rows, weights):
